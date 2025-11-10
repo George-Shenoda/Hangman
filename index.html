@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/output.css" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/4575cfd1b4.js' crossorigin='anonymous'></script>
+</head>
+<body class="font-[Tahoma] dark:bg-[#030712] dark:text-white">
+    <div class="container my-5 mx-auto p-2 bg">
+        <div class="game-info p-2 flex justify-between items-center">
+            <div class="game-name flex-1"></div>
+            <div class="langs">
+                <select name="languages" id="langs" class="me-2.5 outline-0 cursor-pointer appearance-[base-select] px-2 py-2 border border-gray-300 rounded-md">
+                    <option value="en" data-dir="ltr" class="dark:bg-[#030712]">en</option>
+                    <option value="ar" data-dir="rtl" class="dark:bg-[#030712]">ar</option>
+                    <option value="it" data-dir="ltr" class="dark:bg-[#030712]">it</option>
+                </select>
+                <button class="cursor-pointer darkBtn">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </button>
+                <button class="btn" id="audio">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="grid md:grid-cols-2 grid-cols-1" dir="ltr">
+            <div class="hangman-draw bg-[#f8f8f8] dark:bg-[#080e1fd7] p-5 h-[324px] flex justify-center items-center">
+                <div class="draw h-[280px] w-[60px] border-b-4 border-solid border-b-[#222] dark:border-b-white relative -ms-10 hidden">
+                    <div class="stand content-[''] absolute w-1 bg-[#222] dark:bg-white h-full left-[50%] translate-x-[-50%] hidden"></div>
+                    <div class="hang before:content-[''] dark:before:bg-white before:absolute dark:after:bg-white before:w-20 before:bg-[#222] before:h-1 before:left-[30px] before:top-2.5 after:content-[''] after:absolute after:w-1 after:bg-[#222] after:h-[30px] after:left-[110px] after:top-2.5 hidden"></div>
+                    <div class="rope w-[70px] h-[70px] rounded-full absolute left-[78px] dark:border-white top-10 border-dashed border-4 border-[#222] hidden"></div>
+                    <div class="man">
+                        <div class="head dark:border-white w-[50px] h-[50px] rounded-full absolute left-[88px] top-[50px] border-solid border-4 border-[#222] hidden"></div>
+                        <div class="body dark:bg-white absolute bg-[#222] w-1 h-[110px] top-[100px] left-[111px] hidden"></div>
+                        <div class="hand1 dark:bg-white w-[50px] absolute h-1 bg-[#222] top-[130px] left-[65px] rotate-30 hidden"></div>
+                        <div class="hand2 dark:bg-white w-[50px] absolute h-1 bg-[#222] top-[130px] left-[110px] rotate-[-30deg] hidden"></div>
+                        <div class="leg1 dark:bg-white w-[50px] absolute h-1 bg-[#222] top-[220px] left-[65px] rotate-[-30deg] hidden"></div>
+                        <div class="leg2 dark:bg-white rotate-30 w-[50px] absolute h-1 bg-[#222] top-[220px] left-[110px] hidden"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="letters p-[15px] text-center self-center"></div>
+        </div>
+        <hr>
+        <div class="guess my-2.5 mx-auto dark:bg-[#080e1fd7] bg-[#f8f8f8] p-5 flex justify-center min-h-[104px] dark:text-black" dir="ltr">
+        </div>
+    </div>
+
+    <audio id="success">
+        <source src="audio/short-success-sound-glockenspiel-treasure-video-game-6346.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="fail" class="">
+        <source src="audio/fail-234710.mp3" type="audio/mpeg">
+    </audio>
+    <script src='https://code.jquery.com/jquery-3.7.1.min.js' integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=' crossorigin='anonymous'></script>
+    <script type="module" src="js/translate.js"></script>
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>

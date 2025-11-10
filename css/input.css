@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base{
+    hr{
+        border: 1px solid #EEE;
+    }
+};
+
+@layer components{
+    .clicked{
+        pointer-events: none;
+        opacity: .2;
+    }
+}
