@@ -72,7 +72,7 @@ $('#langs').change(function (e) {
     storage.set('lang', selected.val());
     storage.set('dir', selected.data('dir'))
     changeLanguage()
-    window.location.reload()
+    resetGame()
 });
 
 let letters = Array.from("abcdefghijklmnopqrstuvwxyz")
@@ -195,7 +195,7 @@ function createGame(){
 
 function resetGame(){
     // get a new word
-    let word = generate(1, $('html').attr('lang'));
+    word = generate(1, $('html').attr('lang'));
     word = Array.from(String(word).toLowerCase());
 
     // remove any wrong-N classes from the hangman container
