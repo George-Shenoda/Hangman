@@ -3,18 +3,37 @@ import { generate } from "https://esm.sh/random-words";
 import { changeLanguage, translate } from "./translate.js";
 generate
 
-if(window.localStorage.dark === 'yes'){
+// localStorage namespace helper
+function appStorage(appName) {
+  return {
+    key(k) { return `${appName}__${k}`; },
+    get(k) {
+      return localStorage.getItem(this.key(k));
+    },
+    set(k, v) {
+      localStorage.setItem(this.key(k), v);
+    },
+    remove(k) {
+      localStorage.removeItem(this.key(k));
+    }
+  };
+}
+
+// Use the storage helper
+const storage = appStorage('Hangman');
+
+if(storage.get('dark') === 'yes'){
     $(document.body).addClass('dark');
 }
-if(window.localStorage.lang){
-    $('html').attr('lang',window.localStorage.lang)
-    $("#langs").val(window.localStorage.lang)
+if(storage.get('lang')){
+    $('html').attr('lang', storage.get('lang'))
+    $("#langs").val(storage.get('lang'))
 }
-if(window.localStorage.dir){
-    $('html').attr('dir',window.localStorage.dir) 
+if(storage.get('dir')){
+    $('html').attr('dir', storage.get('dir')) 
 }
-if(window.localStorage.audio){
-    if (window.localStorage.audio === 'yes'){
+if(storage.get('audio')){
+    if (storage.get('audio') === 'yes'){
         $('.btn#audio').html(`<i class="fa-solid fa-volume-high"></i>`)
         $('.btn#audio').removeClass("no")
     }
@@ -26,25 +45,24 @@ if(window.localStorage.audio){
 
 changeLanguage()
 
-
 $(".darkBtn").click(function (e) { 
     $(document.body).toggleClass('dark');
     if($(document.body).hasClass('dark'))
-        window.localStorage.dark = 'yes'
+        storage.set('dark', 'yes')
     else
-        window.localStorage.dark = 'no'
+        storage.set('dark', 'no')
 });
 
 $('.btn#audio').click(function (e){
     if($('.btn#audio').hasClass('no')){
-        $('.btn#audio').html(`<i class="fa-solid fa-volume-high"></i>`)
+        $('.btn#audio').html(`<i class="fa-solid fa-volume-high"></i>`) 
         $('.btn#audio').removeClass("no")
-        window.localStorage.audio = 'yes';
+        storage.set('audio', 'yes');
     }
     else{
         $('.btn#audio').html(`<i class="fa-solid fa-volume-xmark"></i>`)
         $('.btn#audio').addClass("no")
-        window.localStorage.audio = 'no';
+        storage.set('audio', 'no');
     }
 })
 
@@ -52,8 +70,8 @@ $('#langs').change(function (e) {
     const selected = $(this).find(':selected');
     $('html').attr('lang', selected.val());
     $('html').attr('dir', selected.data('dir'));
-    window.localStorage.lang = selected.val();
-    window.localStorage.dir = selected.data('dir')
+    storage.set('lang', selected.val());
+    storage.set('dir', selected.data('dir'))
     changeLanguage()
 });
 
@@ -63,7 +81,6 @@ let wrong = 0;
 let word = generate();
 word = Array.from(word)
 let current = 0;
-
 
 letters.forEach(letter => {
     let span = $("<span>", {
@@ -92,11 +109,11 @@ letters.forEach(letter => {
         }
         if (current === word.length){
             $('.letters span').addClass("clicked")
-            let div = $("<div>",{
+            let div = $("<div>",{ 
                 text: `${translate[$('html').attr('lang')]['message']}${wrong}`,
                 "class": "w-full h-full z-10 bg-[#198754d6] fixed left-0 top-0 justify-center flex-col items-center text-[30px] flex text-white text-center"
             })
-            let btn = $("<button>",{
+            let btn = $("<button>",{ 
                 text: "New Game",
                 "Class": "mt-10 text-white py-3 px-4 text-center rounded-sm cursor-pointer bg-[#f44336]"
             })
@@ -109,11 +126,11 @@ letters.forEach(letter => {
         }
         if(wrong === 10){
             $('.letters span').addClass("clicked")
-            let div = $("<div>",{
+            let div = $("<div>",{ 
                 text: `${translate[$('html').attr('lang')]['messageF']}${word.join("")}`,
                 "class": "end w-full h-full z-10 bg-red-300 fixed left-0 top-0 justify-center flex-col items-center text-[30px] flex text-white text-center"
             })
-            let btn = $("<button>",{
+            let btn = $("<button>",{ 
                 text: "New Game",
                 "Class": "end mt-10 text-white py-3 px-4 text-center rounded-sm cursor-pointer bg-[#f44336]"
             })
@@ -162,7 +179,7 @@ letters.forEach(letter => {
 createGame()
 
 function createGame(){
-    for(let i = 0; i < word.length; i++){
+    for(let i = 0; i < word.length; i++){ 
         let span = $("<span>", {
             "class": "letter-guess w-[60px] h-[60px] text-2xl mr-2.5 text-center leading-[60px] uppercase font-bold bg-[#fdfdfd] border-b-[3px] border-solid border-b-[#222] duration-300"
         });
