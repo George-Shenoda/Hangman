@@ -1,7 +1,6 @@
-import { generate } from "https://esm.sh/random-words";
+import { generate } from "./random-words.js";
 
 import { changeLanguage, translate } from "./translate.js";
-generate
 
 // localStorage namespace helper
 function appStorage(appName) {
@@ -73,13 +72,20 @@ $('#langs').change(function (e) {
     storage.set('lang', selected.val());
     storage.set('dir', selected.data('dir'))
     changeLanguage()
+    window.location.reload()
 });
 
-const letters = Array.from("abcdefghijklmnopqrstuvwxyz")
+let letters = Array.from("abcdefghijklmnopqrstuvwxyz")
+const ARletters = Array.from("ابتثجحخدذرزسشصضطظعغفقكلمنهوية")
+
+if($('html').attr('lang') === 'ar'){
+    letters = ARletters
+}
 
 let wrong = 0;
-let word = generate();
-word = Array.from(word)
+let word = generate(1, $('html').attr('lang'));
+word = Array.from(String(word))
+console.log(word)
 let current = 0;
 
 letters.forEach(letter => {
@@ -114,7 +120,7 @@ letters.forEach(letter => {
                 "class": "w-full h-full z-10 bg-[#198754d6] fixed left-0 top-0 justify-center flex-col items-center text-[30px] flex text-white text-center"
             })
             let btn = $("<button>",{ 
-                text: ${translate[$('html').attr('lang')]['button']},
+                text: translate[$('html').attr('lang')]['button'],
                 "Class": "mt-10 text-white py-3 px-4 text-center rounded-sm cursor-pointer bg-[#f44336]"
             })
             $(div).append(btn)
@@ -131,7 +137,7 @@ letters.forEach(letter => {
                 "class": "end w-full h-full z-10 bg-red-300 fixed left-0 top-0 justify-center flex-col items-center text-[30px] flex text-white text-center"
             })
             let btn = $("<button>",{ 
-                text: ${translate[$('html').attr('lang')]['button']},
+                text: translate[$('html').attr('lang')]['button'],
                 "Class": "end mt-10 text-white py-3 px-4 text-center rounded-sm cursor-pointer bg-[#f44336]"
             })
             $(div).append(btn)
@@ -189,7 +195,7 @@ function createGame(){
 
 function resetGame(){
     // get a new word
-    word = generate();
+    let word = generate(1, $('html').attr('lang'));
     word = Array.from(String(word).toLowerCase());
 
     // remove any wrong-N classes from the hangman container
