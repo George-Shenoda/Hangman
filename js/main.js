@@ -114,7 +114,7 @@ letters.forEach(letter => {
                 "class": "w-full h-full z-10 bg-[#198754d6] fixed left-0 top-0 justify-center flex-col items-center text-[30px] flex text-white text-center"
             })
             let btn = $("<button>",{ 
-                text: "New Game",
+                text: ${translate[$('html').attr('lang')]['button']},
                 "Class": "mt-10 text-white py-3 px-4 text-center rounded-sm cursor-pointer bg-[#f44336]"
             })
             $(div).append(btn)
@@ -131,7 +131,7 @@ letters.forEach(letter => {
                 "class": "end w-full h-full z-10 bg-red-300 fixed left-0 top-0 justify-center flex-col items-center text-[30px] flex text-white text-center"
             })
             let btn = $("<button>",{ 
-                text: "New Game",
+                text: ${translate[$('html').attr('lang')]['button']},
                 "Class": "end mt-10 text-white py-3 px-4 text-center rounded-sm cursor-pointer bg-[#f44336]"
             })
             $(div).append(btn)
